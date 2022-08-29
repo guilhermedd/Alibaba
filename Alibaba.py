@@ -15,7 +15,20 @@ class Task:
           self.dependents: list[int] = dependents
 
 def name(self, job_name):
-     return [int(x) for x in job_name[1][:1].split("_")][0]
+     return [int(x) for x in job_name[1:].split("_")][0]  # M10_3_4 -> 10
+
+def dependencies(self, job_name) -> list[int]:
+     return [int(x) for x in job_name.split("_")[1:]]  # M1_3_4 -> [3,4]    
+
+def dependents(self, job_name, all_jobs) -> list[int]:
+     dependencies = []
+
+     for job in all_jobs:  # job list
+          for dependency in job.dependencies(job[1]):  # for each dependency in the dependencies list of each job
+               if dependency == name(job_name):  # if any dependency == this job's name
+                    dependencies.append(name(job_name))  # dependencies.append(jobs name without depedency)
+
+     return dependencies
 
 def create_objects(self, filename):
      jobs = []
@@ -23,22 +36,9 @@ def create_objects(self, filename):
           for line in f.readlines(): 
                jobs.append(line.split())
 
-     def dependencies(self, job_name) -> list[int]:
-          return [int(x) for x in job_name.split("_")[:1]]  # M1_3_4 -> [3,4]    
-
-     def dependents(self, job_name, all_jobs) -> list[int]:
-          dependencies = []
-
-          for job in all_jobs:  # job list
-               for dependency in job.dependencies(job[1]):  # for each dependency in the dependencies list of each job
-                    if dependency == [int(x) for x in job_name[:1].split("_")][0]:  # if any dependency == this job's name
-                         dependencies.append([int(x) for x in job_name[:1].split("_")][0])  # dependencies.append(jobs name without depedency)
-
-          return dependencies
-
      tasks = []
      for job in jobs:
-          tasks.append( Task(job[0], job[11], job[6] - job[5], job[5], name(job), dependencies(job[1]), dependents(job[1], jobs)) )
+          tasks.append( Task(job[0], job[11], job[6] - job[5], job[5], name(job), dependencies(job[1]), dependents(job[1], jobs)) )  # TODO: make job[0] become a integer
      
      return tasks
 
