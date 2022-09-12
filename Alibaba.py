@@ -16,21 +16,20 @@ class Task:
           self.dependents: list[int] = dependents
 
 def name(job_name):
-     print ([int(x) for x in job_name[1:].split("_")][0])
      return [int(x) for x in job_name[1:].split("_")][0]  # M10_3_4 -> 10
 
 def dependencies(job_name) -> list[int]:
      return [int(x) for x in job_name.split("_")[1:]]  # M1_3_4 -> [3,4]    
 
 def dependents(job_name, all_jobs) -> list[int]:
-     dependencies = []
+     dependen = []
 
      for job in all_jobs:  # job list
-          for dependency in job.dependencies(job[1]):  # for each dependency in the dependencies list of each job
+          for dependency in dependencies(job[1]):  # for each dependency in the dependencies list of each job
                if dependency == name(job_name):  # if any dependency == this job's name
-                    dependencies.append(name(job_name))  # dependencies.append(jobs name without depedency)
+                    dependen.append(name(job_name))  # dependencies.append(jobs name without depedency)
 
-     return dependencies
+     return dependen
 
 def create_objects(filename):
      jobs = []
@@ -42,9 +41,9 @@ def create_objects(filename):
 
      tasks = []
      for job in jobs:
-          print(job[7])
-          print(name(job[7]))
-          tasks.append( Task([int(x) for x in job[0].split('_')[1:]][0], int(job[11]), int(job[6]) - int(job[5]), int(job[5]), name(job[2]), dependencies(job[2]), dependents(job[2], jobs)) )  # TODO: make job[0] become a integer
+          print(job[1])
+          print(name(job[1]))
+          tasks.append( Task([int(x) for x in job[0].split('_')[1:]][0], int(job[11]), int(job[6]) - int(job[5]), int(job[5]), name(job[1]), dependencies(job[1]), dependents(job[2], jobs)) )  # TODO: make job[0] become a integer
 
      for t in tasks:
           print(tasks)
