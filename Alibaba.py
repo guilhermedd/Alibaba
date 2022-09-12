@@ -1,9 +1,10 @@
 import argparse
+import csv
 
 # receives an Alibaba file and return a vector of Task
 
 class Task:
-     def _init_(self, identifier: int, resource: float, walltime: int, submissionTime: int, jobId: int, dependencies, dependents):
+     def __init__(self, identifier: int, resource: float, walltime: int, submissionTime: int, jobId: int, dependencies, dependents):
           self.id = identifier
           self.resource: int = resource
           self.walltime: int = walltime
@@ -14,13 +15,14 @@ class Task:
           self.dependencies: list[int] = dependencies
           self.dependents: list[int] = dependents
 
-def name(self, job_name):
+def name(job_name):
+     print ([int(x) for x in job_name[1:].split("_")][0])
      return [int(x) for x in job_name[1:].split("_")][0]  # M10_3_4 -> 10
 
-def dependencies(self, job_name) -> list[int]:
+def dependencies(job_name) -> list[int]:
      return [int(x) for x in job_name.split("_")[1:]]  # M1_3_4 -> [3,4]    
 
-def dependents(self, job_name, all_jobs) -> list[int]:
+def dependents(job_name, all_jobs) -> list[int]:
      dependencies = []
 
      for job in all_jobs:  # job list
@@ -30,16 +32,22 @@ def dependents(self, job_name, all_jobs) -> list[int]:
 
      return dependencies
 
-def create_objects(self, filename):
+def create_objects(filename):
      jobs = []
-     with open(filename, 'r', encoding='utf8') as f:
-          for line in f.readlines(): 
-               jobs.append(line.split())
+     with open(arg.file_name, newline='') as f:
+          spamreader = csv.reader(f, delimiter=' ', quotechar='|')
+          for line in spamreader: 
+               # print(line[0])
+               jobs.append(line[0].split(','))
 
      tasks = []
      for job in jobs:
-          tasks.append( Task(job[0], job[11], job[6] - job[5], job[5], name(job), dependencies(job[1]), dependents(job[1], jobs)) )  # TODO: make job[0] become a integer
-     
+          print(job[7])
+          print(name(job[7]))
+          tasks.append( Task([int(x) for x in job[0].split('_')[1:]][0], int(job[11]), int(job[6]) - int(job[5]), int(job[5]), name(job[2]), dependencies(job[2]), dependents(job[2], jobs)) )  # TODO: make job[0] become a integer
+
+     for t in tasks:
+          print(tasks)
      return tasks
 
 if __name__ == '__main__':
