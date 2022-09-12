@@ -16,7 +16,7 @@ class Task:
           self.dependents: list[int] = dependents
 
      def __repr__(self):
-          return f'NOME: {self.id}'
+          return f'Id: {self.id}, Resource: {self.resource}, Walltime: {self.walltime}, Submition Time: {self.submissionTime}, Job Id: {self.jobId}, Alocated At: {self.allocatedAt}, Start Time: {self.startTime}, Dependencies: {self.dependencies}, Dependents: {self.dependents}'
      # def __str__(self):
      #      return f'NOME: {self.id}'     
 
