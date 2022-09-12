@@ -15,6 +15,11 @@ class Task:
           self.dependencies: list[int] = dependencies
           self.dependents: list[int] = dependents
 
+     def __repr__(self):
+          return f'NOME: {self.id}'
+     # def __str__(self):
+     #      return f'NOME: {self.id}'     
+
 def name(job_name):
      return [int(x) for x in job_name[1:].split("_")][0]  # M10_3_4 -> 10
 
@@ -38,23 +43,23 @@ def create_objects(filename):
           for line in spamreader: 
                # print(line[0])
                jobs.append(line[0].split(','))
-
+     del jobs[0]
      tasks = []
      for job in jobs:
-          print(job[1])
-          print(name(job[1]))
           tasks.append( Task([int(x) for x in job[0].split('_')[1:]][0], int(job[11]), int(job[6]) - int(job[5]), int(job[5]), name(job[1]), dependencies(job[1]), dependents(job[2], jobs)) )  # TODO: make job[0] become a integer
 
-     for t in tasks:
-          print(tasks)
+     # for t in tasks:
+     #      print(tasks)
      return tasks
+
 
 if __name__ == '__main__':
      parser = argparse.ArgumentParser()
      parser.add_argument('file_name', help='Input file')
      arg = parser.parse_args()
 
-     print(create_objects(arg.file_name))
+     for task in create_objects(arg.file_name): 
+          print(task)
 
 # identifier        = [0]          -- instance name
 # resource          = [11]         -- max cpu used 
