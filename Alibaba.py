@@ -44,7 +44,8 @@ def create_objects(filename):
      del jobs[0]
      tasks = []
      for job in jobs:
-          tasks.append( Task([int(x) for x in job[0].split('_')[1:]][0], int(job[11]), int(job[6]) - int(job[5]), int(job[5]), name(job[1]), dependencies(job[1]), dependents(job[2], jobs)) )  # TODO: make job[0] become a integer
+          # tasks.append( Task([int(x) for x in job[0].split('_')[1:]][0], int(job[11]), int(job[6]) - int(job[5]), int(job[5]), name(job[1]), dependencies(job[1]), dependents(job[2], jobs)) )  # TODO: make job[0] become a integer
+          tasks.append( Task([int(x) for x in job[0].split('_')[1:]][0], int(job[7]), int(job[6]) - int(job[5]), int(job[5]), name(job[0]), dependencies(job[0]), dependents(job[2], jobs)) )  # TODO: make job[0] become a integer
 
      # for t in tasks:
      #      print(tasks)
@@ -81,3 +82,19 @@ if __name__ == '__main__':
 #   11     | cpu_max         | double     |       | max cpu used by the instance, 100 is 1 core            |
 #   12     | mem_avg         | double     |       | average memory used by the instance (normalized)       |
 #   13     | mem_max         | double     |       | max memory used by the instance (normalized, [0, 100]) |
+
+""" 
+### batch task
++------------------------------------------------------------------------------------+
+0     | task_name       | string     |       | task name. unique within a job              |
+1     | instance_num    | bigint     |       | number of instances                         |
+2     | job_name        | string     |       | job name                                    |
+3     | task_type       | string     |       | task type                                   |
+4     | status          | string     |       | task status                                 |
+5     | start_time      | bigint     |       | start time of the task                      |
+6     | end_time        | bigint     |       | end of time the task                        |
+7     | plan_cpu        | double     |       | number of cpu needed by the task, 100 is 1 core |
+8     | plan_mem        | double     |       | normalized memorty size, [0, 100]           |
++------------------------------------------------------------------------------------+
+
+"""
